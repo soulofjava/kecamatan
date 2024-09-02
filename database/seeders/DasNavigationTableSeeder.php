@@ -114,6 +114,22 @@ class DasNavigationTableSeeder extends Seeder
                 'order' => 8,
                 'status' => 1,
             ],
+            [
+                'name' => 'PPID',
+                'slug' => Str::slug('PPID'),
+                'type' => MenuTipe::EKSTERNAL,
+                'url' => '#',
+                'order' => 9,
+                'status' => 1,
+            ],
+            [
+                'name' => 'Lapor Bupati',
+                'slug' => Str::slug('Lapor Bupati'),
+                'type' => MenuTipe::EKSTERNAL,
+                'url' => 'https://laporbupati.wonosobokab.go.id/',
+                'order' => 10,
+                'status' => 1,
+            ],
         ];
 
         DB::table('das_navigation')->insert($menuUtama);
@@ -236,8 +252,28 @@ class DasNavigationTableSeeder extends Seeder
                 'url' => 'unduhan/form-dokumen',
                 'order' => 3,
                 'status' => 1,
+            ],
+            [
+                'parent_id' => Navigation::where('slug', 'ppid')->first()->id,
+                'name' => 'Permohonan Informasi Publik',
+                'slug' => Str::slug('Permohonan Informasi Publik'),
+                'type' => MenuTipe::EKSTERNAL,
+                'url' => 'https://sobopedia.wonosobokab.go.id/homesobopedia/permohonan',
+                'order' => 1,
+                'status' => 1,
+            ],
+            [
+                'parent_id' => Navigation::where('slug', 'ppid')->first()->id,
+                'name' => 'Pengajuan Keberatan Informasi Publik',
+                'slug' => Str::slug('Pengajuan Keberatan Informasi Publik'),
+                'type' => MenuTipe::EKSTERNAL,
+                'url' => 'https://sobopedia.wonosobokab.go.id/homesobopedia/keberatan',
+                'order' => 1,
+                'status' => 1,
             ]
         ];
+
+        DB::table('das_navigation')->insert($subMenu);
 
         DB::table('das_data_desa')->get()->each(function ($data) use (&$subMenu) {
             $slug = $data->sebutan_desa . '-' . Str::slug($data->nama);
@@ -263,7 +299,5 @@ class DasNavigationTableSeeder extends Seeder
                 'status' => 1,
             ];
         });
-
-        DB::table('das_navigation')->insert($subMenu);
     }
 }
