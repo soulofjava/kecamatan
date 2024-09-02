@@ -123,10 +123,10 @@ class DasNavigationTableSeeder extends Seeder
                 'status' => 1,
             ],
             [
-                'name' => 'Lapor Bupati',
-                'slug' => Str::slug('Lapor Bupati'),
+                'name' => 'Layanan',
+                'slug' => Str::slug('Layanan'),
                 'type' => MenuTipe::EKSTERNAL,
-                'url' => 'https://laporbupati.wonosobokab.go.id/',
+                'url' => '#',
                 'order' => 10,
                 'status' => 1,
             ],
@@ -254,7 +254,25 @@ class DasNavigationTableSeeder extends Seeder
                 'status' => 1,
             ],
             [
-                'parent_id' => Navigation::where('slug', 'ppid')->first()->id,
+                'parent_id' => Navigation::where('slug', 'layanan')->first()->id,
+                'name' => 'JDIH Wonosobo',
+                'slug' => Str::slug('JDIH Wonosobo'),
+                'type' => MenuTipe::EKSTERNAL,
+                'url' => 'https://jdih.wonosobokab.go.id/',
+                'order' => 1,
+                'status' => 1,
+            ],
+            [
+                'parent_id' => Navigation::where('slug', 'layanan')->first()->id,
+                'name' => 'Lapor Bupati',
+                'slug' => Str::slug('Lapor Bupati'),
+                'type' => MenuTipe::EKSTERNAL,
+                'url' => 'https://laporbupati.wonosobokab.go.id/',
+                'order' => 1,
+                'status' => 1,
+            ],
+            [
+                'parent_id' => Navigation::where('slug', 'layanan')->first()->id,
                 'name' => 'Permohonan Informasi Publik',
                 'slug' => Str::slug('Permohonan Informasi Publik'),
                 'type' => MenuTipe::EKSTERNAL,
@@ -263,14 +281,14 @@ class DasNavigationTableSeeder extends Seeder
                 'status' => 1,
             ],
             [
-                'parent_id' => Navigation::where('slug', 'ppid')->first()->id,
+                'parent_id' => Navigation::where('slug', 'layanan')->first()->id,
                 'name' => 'Pengajuan Keberatan Informasi Publik',
                 'slug' => Str::slug('Pengajuan Keberatan Informasi Publik'),
                 'type' => MenuTipe::EKSTERNAL,
                 'url' => 'https://sobopedia.wonosobokab.go.id/homesobopedia/keberatan',
                 'order' => 1,
                 'status' => 1,
-            ]
+            ],
         ];
 
         DB::table('das_navigation')->insert($subMenu);
