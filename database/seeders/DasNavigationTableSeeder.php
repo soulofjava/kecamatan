@@ -118,7 +118,7 @@ class DasNavigationTableSeeder extends Seeder
                 'name' => 'PPID',
                 'slug' => Str::slug('PPID'),
                 'type' => MenuTipe::EKSTERNAL,
-                'url' => '#',
+                'url' => url('ppid'),
                 'order' => 9,
                 'status' => 1,
             ],

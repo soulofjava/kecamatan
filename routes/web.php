@@ -46,6 +46,7 @@ use App\Http\Controllers\BackEnd\EventController;
 use App\Http\Controllers\Setting\SlideController;
 use App\Http\Controllers\BackEnd\ThemesController;
 use App\Http\Controllers\Counter\CounterController;
+use App\Http\Controllers\FrontEnd\PPIDController;
 use App\Http\Controllers\Setting\TipePotensiController;
 use App\Http\Controllers\Setting\TipeRegulasiController;
 use App\Http\Controllers\Setting\JenisPenyakitController;
@@ -78,6 +79,7 @@ Route::group(['middleware' => ['installed', 'xss_sanitization']], function () {
          */
         Route::namespace('\App\Http\Controllers\FrontEnd')->group(function () {
             Route::get('/', 'PageController@index')->name('beranda');
+            Route::get('/ppid', [PPIDController::class, 'index'])->name('ppid');
             Route::get('berita-desa', 'PageController@beritaDesa')->name('berita-desa');
             Route::get('filter-berita-desa', 'PageController@filterFeeds')->name('filter-berita-desa');
 

@@ -50,6 +50,8 @@
         href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,600i,700,700i|Roboto+Condensed:400,700,700i|Roboto:400,400i,500,500i,700,700i&display=swap"
         rel="stylesheet">
     <script src="{{ asset('/bower_components/jquery/dist/jquery.min.js') }}"></script>
+    @vite([])
+    @livewireStyles
 </head>
 
 <body class="hold-transition skin-blue layout-top-nav">
@@ -75,6 +77,7 @@
                 <section class="content">
                     <div class="row">
 
+                        {{ $slot ?? '' }}
                         @yield('content')
 
                         @include('components.sidebar')
@@ -98,7 +101,7 @@
     <!-- jQuery 3 -->
     <script src="{{ asset('/bower_components/jquery/dist/jquery.min.js') }}"></script>
     <script>
-        setTimeout(function() {
+        setTimeout(function () {
             $('.preloader_bg').fadeToggle();
         }, 500);
     </script>
@@ -112,6 +115,7 @@
     <script src="{{ asset('js/swiper.min.js') }}"></script>
     <script src="{{ asset('/js/custom.js') }}"></script>
     @stack('scripts')
+    @livewireScripts
 </body>
 
 </html>

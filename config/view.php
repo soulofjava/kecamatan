@@ -43,7 +43,8 @@ return [
     */
 
     'paths' => [
-        resource_path('views'),
+        resource_path('views'), // Default path
+        base_path('themes/opendk/default/resources/views'), // Add your custom path here
     ],
 
     /*
