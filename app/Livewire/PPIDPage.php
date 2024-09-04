@@ -2,14 +2,18 @@
 
 namespace App\Livewire;
 
+use Conner\Tagging\Model\Tag;
 use Livewire\Component;
 
 class PPIDPage extends Component
 {
-    public $artikel;
+    public $artikel, $categori;
 
     public function mount()
     {
+        $this->categori = Tag::orderBy('name', 'ASC')->pluck('name', 'name')->map(function ($item) {
+            return strtoupper($item);
+        });
         $this->artikel = [
             (object) [
                 'judul' => 'Judul Artikel Dummy',
