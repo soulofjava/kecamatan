@@ -74,7 +74,7 @@
                 <div class="post" style="margin-top: 15px; margin-bottom: 5px; padding-top: 5px; padding-bottom: 5px;">
                     <div class="row">
                         <div class="col-sm-4">
-                            <img class="img-responsive" src="{{ is_img($item->gambar) }}" alt="{{ $item->slug }}">
+                            <img class="img-responsive" src="{{ is_img($item->gambar) }}" alt="{{ $item->slug }}" style="object-fit: cover; width: 223px; height: 126px;">
                         </div>
                         <div class="col-sm-8">
                             <h5 style="margin-top: 5px; text-align: justify;">
@@ -94,7 +94,7 @@
                 @empty
                 <div class="callout"
                     style="margin-top: 15px; background-color: #011B89; color: white; text-align: center;">
-                    <p class="text-bold">Tidak ada dengan kategori tersebut!</p>
+                    <p class="text-bold">Tidak ada data dengan kategori tersebut!</p>
                 </div>
                 @endforelse
                 @endif

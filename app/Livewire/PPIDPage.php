@@ -5,10 +5,14 @@ namespace App\Livewire;
 use App\Models\PPID; // Pastikan untuk mengimpor model PPID
 use Conner\Tagging\Model\Tag;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class PPIDPage extends Component
 {
+    use WithPagination; // Add this trait to enable pagination
+
     public $artikel, $categori, $selectedCategory;
+    public $perPage = 10; // Number of items per page
 
     public function mount()
     {
@@ -24,10 +28,13 @@ class PPIDPage extends Component
 
     public function loadArticles()
     {
+        // Make sure to reset pagination when loading articles
+        $this->resetPage();
+
         if ($this->selectedCategory) {
             $this->artikel = PPID::withAnyTag([$this->selectedCategory])
                 ->where('status', 1)
-                ->get()
+                ->paginate($this->perPage)
                 ->map(function ($item) {
                     return (object) [
                         'judul' => $item->judul,
@@ -39,7 +46,7 @@ class PPIDPage extends Component
                 });
         } else {
             $this->artikel = PPID::where('status', 1)
-            ->get()
+                ->paginate($this->perPage)
                 ->map(function ($item) {
                     return (object) [
                         'judul' => $item->judul,
@@ -60,7 +67,9 @@ class PPIDPage extends Component
 
     public function render()
     {
-        return view('livewire.p-p-i-d-page')
+        return view('livewire.p-p-i-d-page', [
+            'artikels' => $this->artikel, // Pass the paginated articles to the view
+        ])
             ->layout('layouts.app');
     }
 }
