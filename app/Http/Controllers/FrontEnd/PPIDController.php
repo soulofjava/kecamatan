@@ -9,6 +9,6 @@ class PPIDController extends FrontEndController
 {
     public function index()
     {
-        return view('pages.ppid'); 
+        return view('ppid'); 
     }
 }
