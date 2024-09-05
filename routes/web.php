@@ -277,6 +277,17 @@ Route::group(['middleware' => ['installed', 'xss_sanitization']], function () {
                     Route::delete('destroy/{artikel}', ['as' => 'informasi.artikel.destroy', 'uses' => 'ArtikelController@destroy']);
                     Route::get('getdata', ['as' => 'informasi.artikel.getdata', 'uses' => 'ArtikelController@getDataArtikel']);
                 });
+                
+                // PPID
+                Route::group(['prefix' => 'ppid', 'excluded_middleware' => 'xss_sanitization'], function () {
+                    Route::get('/', ['as' => 'informasi.ppid.index', 'uses' => 'BackPPIDController@index']);
+                    Route::get('create', ['as' => 'informasi.ppid.create', 'uses' => 'BackPPIDController@create']);
+                    Route::post('store', ['as' => 'informasi.ppid.store', 'uses' => 'BackPPIDController@store']);
+                    Route::get('edit/{artikel}', ['as' => 'informasi.ppid.edit', 'uses' => 'BackPPIDController@edit']);
+                    Route::post('update/{artikel}', ['as' => 'informasi.ppid.update', 'uses' => 'BackPPIDController@update']);
+                    Route::delete('destroy/{artikel}', ['as' => 'informasi.ppid.destroy', 'uses' => 'BackPPIDController@destroy']);
+                    Route::get('getdata', ['as' => 'informasi.ppid.getdata', 'uses' => 'BackPPIDController@getDataArtikel']);
+                });
 
                 // Form Dokumen
                 Route::group(['prefix' => 'form-dokumen'], function () {
