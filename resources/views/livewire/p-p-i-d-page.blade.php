@@ -70,11 +70,18 @@
                     <p class="text-bold">Belum pilih kategori</p>
                 </div>
                 @else
+                <!-- Search Field -->
+                <div class="form-group" style="margin-top: 15px;">
+                    <input type="text" class="form-control" placeholder="CARI DATA DI KATEGORI {{ $selectedCategory }}"
+                        wire:model.live="mencari" style="text-align: center; width: 100%;">
+                </div>
                 @forelse ($artikel as $item)
+
                 <div class="post" style="margin-top: 15px; margin-bottom: 5px; padding-top: 5px; padding-bottom: 5px;">
                     <div class="row">
                         <div class="col-sm-4">
-                            <img class="img-responsive" src="{{ is_img($item->gambar) }}" alt="{{ $item->slug }}" style="object-fit: cover; width: 223px; height: 126px;">
+                            <img class="img-responsive" src="{{ is_img($item->gambar) }}" alt="{{ $item->slug }}"
+                                style="object-fit: cover; width: 223px; height: 126px;">
                         </div>
                         <div class="col-sm-8">
                             <h5 style="margin-top: 5px; text-align: justify;">
@@ -97,6 +104,12 @@
                     <p class="text-bold">Tidak ada data dengan kategori tersebut!</p>
                 </div>
                 @endforelse
+                <!-- Load More Button -->
+                @if($artikel->hasMorePages())
+                <div class="text-center" style="margin-top: 15px;">
+                    <button wire:click="loadMore" class="btn btn-primary">Load More</button>
+                </div>
+                @endif
                 @endif
             </div>
         </div>

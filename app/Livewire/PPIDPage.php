@@ -2,73 +2,67 @@
 
 namespace App\Livewire;
 
-use App\Models\PPID; // Pastikan untuk mengimpor model PPID
+use App\Models\PPID;
 use Conner\Tagging\Model\Tag;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class PPIDPage extends Component
 {
-    use WithPagination; // Add this trait to enable pagination
+    use WithPagination;
 
-    public $artikel, $categori, $selectedCategory;
-    public $perPage = 10; // Number of items per page
+    public $selectedCategory;
+    public $perPage = 2; // Number of items per page
+    public $mencari = ''; 
+    public $categori;
 
     public function mount()
     {
-        // Mengambil kategori dari model Tag
-        $this->categori = Tag::orderBy('name', 'ASC')->pluck('name', 'name')->map(function ($item) {
+        // Fetch categories from the Tag model
+        $this->categori = Tag::orderBy('name', 'ASC')->pluck('name')->map(function ($item) {
             return strtoupper($item);
         });
 
         $this->selectedCategory = null; // Initialize selected category
-
-        $this->loadArticles(); // Load articles on mount
     }
 
     public function loadArticles()
     {
-        // Make sure to reset pagination when loading articles
-        $this->resetPage();
+        $this->resetPage(); // Reset pagination when loading articles
+
+        // Build the query
+        $query = PPID::where('status', 1);
 
         if ($this->selectedCategory) {
-            $this->artikel = PPID::withAnyTag([$this->selectedCategory])
-                ->where('status', 1)
-                ->paginate($this->perPage)
-                ->map(function ($item) {
-                    return (object) [
-                        'judul' => $item->judul,
-                        'slug' => $item->slug,
-                        'gambar' => $item->gambar ?? 'https://via.placeholder.com/150',
-                        'isi' => $item->isi,
-                        'created_at' => $item->created_at,
-                    ];
-                });
-        } else {
-            $this->artikel = PPID::where('status', 1)
-                ->paginate($this->perPage)
-                ->map(function ($item) {
-                    return (object) [
-                        'judul' => $item->judul,
-                        'slug' => $item->slug,
-                        'gambar' => $item->gambar ?? 'https://via.placeholder.com/150',
-                        'isi' => $item->isi,
-                        'created_at' => $item->created_at,
-                    ];
-                });
+            $query->withAnyTag([$this->selectedCategory]);
         }
+
+        if ($this->mencari) {
+            $query->where('judul', 'like', '%' . $this->mencari . '%');
+        }
+
+        // Paginate results
+        return $query->paginate($this->perPage);
     }
 
     public function selectCategory($category)
     {
         $this->selectedCategory = $category;
-        $this->loadArticles();
+        $this->mencari = '';
+        $this->resetPage(); // Reset pagination when changing category
+    }
+
+    public function loadMore()
+    {
+        $this->perPage += 2; // Increment the number of items per page
     }
 
     public function render()
     {
+        $artikels = $this->loadArticles(); // Get paginated articles
+
         return view('livewire.p-p-i-d-page', [
-            'artikels' => $this->artikel, // Pass the paginated articles to the view
+            'artikel' => $artikels, // Pass the paginated articles to the view
         ])
             ->layout('layouts.app');
     }
