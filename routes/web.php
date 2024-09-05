@@ -80,6 +80,7 @@ Route::group(['middleware' => ['installed', 'xss_sanitization']], function () {
         Route::namespace('\App\Http\Controllers\FrontEnd')->group(function () {
             Route::get('/', 'PageController@index')->name('beranda');
             Route::get('/ppid', [PPIDController::class, 'index'])->name('ppid');
+            Route::get('/detailppid/{slug}', [PPIDController::class, 'detail'])->name('ppid.detail');
             Route::get('berita-desa', 'PageController@beritaDesa')->name('berita-desa');
             Route::get('filter-berita-desa', 'PageController@filterFeeds')->name('filter-berita-desa');
 
@@ -277,7 +278,7 @@ Route::group(['middleware' => ['installed', 'xss_sanitization']], function () {
                     Route::delete('destroy/{artikel}', ['as' => 'informasi.artikel.destroy', 'uses' => 'ArtikelController@destroy']);
                     Route::get('getdata', ['as' => 'informasi.artikel.getdata', 'uses' => 'ArtikelController@getDataArtikel']);
                 });
-                
+
                 // PPID
                 Route::group(['prefix' => 'ppid', 'excluded_middleware' => 'xss_sanitization'], function () {
                     Route::get('/', ['as' => 'informasi.ppid.index', 'uses' => 'BackPPIDController@index']);

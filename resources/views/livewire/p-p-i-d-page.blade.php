@@ -93,7 +93,7 @@
                                 <i class="fa fa-user"></i> Administrator
                             </p>
                             <p style="text-align: justify;">{{ strip_tags(substr($item->isi, 0, 250)) }}...</p>
-                            <a href="{{ url('berita/'.$item->slug) }}" class="btn btn-sm btn-primary"
+                            <a href="{{ route('ppid.detail', ['slug' => $item->slug]) }}" class="btn btn-sm btn-primary"
                                 target="_blank">Selengkapnya</a>
                         </div>
                     </div>

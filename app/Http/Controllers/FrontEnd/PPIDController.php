@@ -9,6 +9,11 @@ class PPIDController extends FrontEndController
 {
     public function index()
     {
-        return view('ppid'); 
+        return view('ppid');
+    }
+
+    public function detail($slug)
+    {
+        return view('detailppid', ['slug' => $slug]);
     }
 }
