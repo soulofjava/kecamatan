@@ -101,8 +101,9 @@ class BackPPIDController extends Controller
             if ($request->hasFile('gambar')) {
                 $file = $request->file('gambar');
                 $path = Storage::putFile('public/ppid', $file);
+                $filename = basename($path);
 
-                $input['gambar'] = substr($path, 15);
+                $input['gambar'] = $filename;
             }
 
             $id = PPID::create($input);
@@ -143,11 +144,12 @@ class BackPPIDController extends Controller
 
             if ($request->hasFile('gambar')) {
                 $file = $request->file('gambar');
-                $path = Storage::putFile('public/artikel', $file);
+                $path = Storage::putFile('public/ppid', $file);
+                $filename = basename($path);
 
                 Storage::delete('public/ppid/' . $artikel->getRawOriginal('gambar'));
 
-                $input['gambar'] = substr($path, 15);
+                $input['gambar'] = $filename;
             }
 
             $artikel->update($input);

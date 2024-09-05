@@ -39,7 +39,7 @@
         "yajra/laravel-datatables-oracle": "~10."
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.6",
+        "barryvdh/laravel-debugbar": "^3.13",
         "beyondcode/laravel-query-detector": "^1.5",
         "fakerphp/faker": "^1.9.1",
         "filp/whoops": "~2.0",
