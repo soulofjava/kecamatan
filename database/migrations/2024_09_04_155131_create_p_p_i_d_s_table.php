@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('p_p_i_d_s', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('slug')->unique();
+            $table->string('kategori');
             $table->string('judul');
-            $table->string('gambar');
+            $table->string('gambar')->nullable();
             $table->text('isi');
             $table->integer('status')->default(0);
             $table->timestamps();

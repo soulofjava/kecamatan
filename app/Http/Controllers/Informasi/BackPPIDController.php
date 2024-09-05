@@ -32,8 +32,9 @@
 namespace App\Http\Controllers\Informasi;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ArtikelRequest;
-use App\Models\Artikel;
+use App\Http\Requests\PPIDRequest;
+use App\Models\PPID;
+use Conner\Tagging\Model\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
@@ -51,14 +52,14 @@ class BackPPIDController extends Controller
     public function getDataArtikel(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Artikel::all())
+            return DataTables::of(PPID::all())
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($row) {
                     $data['show_web'] = route('berita.detail', $row->slug);
 
                     if (! auth()->guest()) {
-                        $data['edit_url'] = route('informasi.artikel.edit', $row->id);
-                        $data['delete_url'] = route('informasi.artikel.destroy', $row->id);
+                        $data['edit_url'] = route('informasi.ppid.edit', $row->id);
+                        $data['delete_url'] = route('informasi.ppid.destroy', $row->id);
                     }
 
                     return view('forms.aksi', $data);
@@ -82,40 +83,60 @@ class BackPPIDController extends Controller
     {
         $page_title = 'PPID';
         $page_description = 'Tambah Data PPID';
+        $categori = Tag::orderBy('name', 'ASC')->pluck('name', 'name')->map(function ($item) {
+            return strtoupper($item);
+        });
 
-        return view('informasi.ppid.create', compact('page_title', 'page_description'));
+        return view('informasi.ppid.create', [
+            'page_title' => $page_title,
+            'page_description' => $page_description,
+            'categori' => $categori
+        ]);
     }
 
-    public function store(ArtikelRequest $request)
+    public function store(PPIDRequest $request)
     {
         try {
             $input = $request->all();
             if ($request->hasFile('gambar')) {
                 $file = $request->file('gambar');
-                $path = Storage::putFile('public/artikel', $file);
+                $path = Storage::putFile('public/ppid', $file);
 
                 $input['gambar'] = substr($path, 15);
             }
 
-            Artikel::create($input);
+            $id = PPID::create($input);
+            // tagging postingan
+            $id->tag($input['kategori']);
         } catch (\Exception $e) {
             report($e);
-
-            return back()->withInput()->with('error', 'Simpan artikel gagal!');
+            return back()->withInput()->with('error', 'Simpan data gagal!');
         }
 
-        return redirect()->route('informasi.artikel.index')->with('success', 'Artikel berhasil disimpan!');
+        return redirect()->route('informasi.ppid.index')->with('success', 'Data berhasil disimpan!');
     }
 
-    public function edit(Artikel $artikel)
+    public function edit(PPID $artikel)
     {
         $page_title = 'PPID';
         $page_description = 'Ubah Data PPID';
 
-        return view('informasi.ppid.edit', compact('artikel', 'page_title', 'page_description'));
+        $categori = Tag::orderBy('name', 'ASC')->pluck('name', 'name')->map(function ($item) {
+            return strtoupper($item);
+        });
+
+        // untuk list yang terpilih
+        $categorinya = $artikel->tagged->pluck('tag_name')->toArray();
+        return view('informasi.ppid.edit', [
+            'artikel' => $artikel,
+            'page_title' => $page_title,
+            'page_description' => $page_description,
+            'categori' => $categori,
+            'categorinya' => $categorinya
+        ]);
     }
 
-    public function update(ArtikelRequest $request, Artikel $artikel)
+    public function update(PPIDRequest $request, PPID $artikel)
     {
         try {
             $input = $request->all();
@@ -124,33 +145,35 @@ class BackPPIDController extends Controller
                 $file = $request->file('gambar');
                 $path = Storage::putFile('public/artikel', $file);
 
-                Storage::delete('public/artikel/' . $artikel->getRawOriginal('gambar'));
+                Storage::delete('public/ppid/' . $artikel->getRawOriginal('gambar'));
 
                 $input['gambar'] = substr($path, 15);
             }
 
             $artikel->update($input);
+            // tag ulang postingan
+            $artikel->retag($input['kategori']);
         } catch (\Exception $e) {
             report($e);
 
-            return back()->withInput()->with('error', 'Artikel gagal dihapus!');
+            return back()->withInput()->with('error', 'Data gagal dihapus!');
         }
 
-        return redirect()->route('informasi.artikel.index')->with('success', 'Artikel berhasil diubah!');
+        return redirect()->route('informasi.ppid.index')->with('success', 'Data berhasil diubah!');
     }
 
-    public function destroy(Artikel $artikel)
+    public function destroy(PPID $artikel)
     {
         try {
             if ($artikel->delete()) {
-                Storage::delete('public/artikel/' . $artikel->getRawOriginal('gambar'));
+                Storage::delete('public/ppid/' . $artikel->getRawOriginal('gambar'));
             }
         } catch (\Exception $e) {
             report($e);
 
-            return redirect()->route('informasi.artikel.index')->with('error', 'Artikel gagal dihapus!');
+            return redirect()->route('informasi.ppid.index')->with('error', 'Data gagal dihapus!');
         }
 
-        return redirect()->route('informasi.artikel.index')->with('success', 'Artikel sukses dihapus!');
+        return redirect()->route('informasi.ppid.index')->with('success', 'Data sukses dihapus!');
     }
 }

@@ -16,8 +16,6 @@
     <meta itemprop="image" content="{{ is_img($page_image ?? '') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{--
-    <meta name="user-token" content="{{ Auth::user()->api_token }}" /> --}}
     <meta property="og:locale" content="id_ID">
     <meta property="og:type" content="article">
     <meta property="og:url" content="{{ Request::url() }}">
