@@ -19,15 +19,13 @@
                             <li class="dropdown">
                                 <a href="{{ $nav['full_url'] }}" class="dropdown-toggle" data-toggle="dropdown"> {{ $nav['name'] }} <span class="caret"></span></a>
                                 <ul class="dropdown-menu fadeIn animated" role="menu">
-                                    @if($nav['name'] == 'Layanan')
-                                    @foreach ($nav['childrens'] as $child)
-                                    <li><a target="_blank" href="{{ $child['full_url'] }}">{{ $child['name'] }}</a></li>                                   
-                                    @endforeach
-                                    @else
-                                    @foreach ($nav['childrens'] as $child)
-                                    <li><a href="{{ $child['full_url'] }}">{{ $child['name'] }}</a></li>                                   
-                                    @endforeach
-                                    @endif
+                                @foreach ($nav['childrens'] as $child)
+                                <li>
+                                    <a href="{{ $child['full_url'] }}" {{ $nav['name']=='Layanan' ? 'target="_blank"' : '' }}>
+                                        {{ $child['name'] }}
+                                    </a>
+                                </li>
+                                @endforeach
                                 </ul>
                             </li>
                         @else
