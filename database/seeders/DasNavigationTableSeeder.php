@@ -255,6 +255,15 @@ class DasNavigationTableSeeder extends Seeder
             ],
             [
                 'parent_id' => Navigation::where('slug', 'layanan')->first()->id,
+                'name' => 'Ayo Promo',
+                'slug' => Str::slug('Ayo Promo'),
+                'type' => MenuTipe::EKSTERNAL,
+                'url' => 'https://ayopromo.com/',
+                'order' => 1,
+                'status' => 1,
+            ],
+            [
+                'parent_id' => Navigation::where('slug', 'layanan')->first()->id,
                 'name' => 'JDIH Wonosobo',
                 'slug' => Str::slug('JDIH Wonosobo'),
                 'type' => MenuTipe::EKSTERNAL,
