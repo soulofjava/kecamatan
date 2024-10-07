@@ -113,7 +113,8 @@
     <script src="{{ asset('js/swiper.min.js') }}"></script>
     <script src="{{ asset('/js/custom.js') }}"></script>
     <!-- accessibility widget -->
-    <script src="https://website-widgets.pages.dev/dist/sienna.min.js" defer></script>
+    <!-- <script src="https://website-widgets.pages.dev/dist/sienna.min.js" defer></script> -->
+    <x-disabilitas />
     @stack('scripts')
     @livewireScripts
 </body>
