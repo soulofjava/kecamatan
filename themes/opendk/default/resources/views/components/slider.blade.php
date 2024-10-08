@@ -13,7 +13,7 @@
                             </div>
                         </div>
                         <div class="image">
-                            <img src="{{ Str::contains($slide->gambar, 'storage') ? asset($slide->gambar) : $slide->gambar }}">
+                            <img style="object-fit: cover;" src="{{ Str::contains($slide->gambar, 'storage') ? asset($slide->gambar) : $slide->gambar }}">
                         </div>
                     </div>
                 </div>

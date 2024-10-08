@@ -117,7 +117,7 @@
 
         .toolbar-disabilitas {
             position: fixed;
-            top: 6%;
+            top: 50%;
             left: 0;
             z-index: 999;
             height: 1px;

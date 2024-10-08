@@ -7,9 +7,9 @@
             @include('widgets.sinergi_program')
         </div>
     @endif
-    <div class="box box-widget">
-        @include('widgets.komplain')
-    </div>
+    <!-- <div class="box box-widget"> -->
+        {{-- @include('widgets.komplain') --}}
+    <!-- </div> -->
     <div class="box box-widget">
         @include('widgets.event')
     </div>
