@@ -85,7 +85,7 @@
                         </div>
                         <div class="col-sm-8">
                             <h5 style="margin-top: 5px; text-align: justify;">
-                                <b><a href="{{ url('berita/'.$item->slug) }}">{{ $item->judul }}</a></b>
+                                <b><a href="{{ route('ppid.detail', ['slug' => $item->slug]) }}">{{ $item->judul }}</a></b>
                             </h5>
                             <p style="font-size:11px;">
                                 <i class="fa fa-calendar"></i> {{ format_date($item->created_at) }}
